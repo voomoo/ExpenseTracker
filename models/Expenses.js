@@ -40,12 +40,8 @@ const ExpenseSchema = new mongoose.Schema({
       ]
   },
   amount:{
-      type: Number,
-      required: [true, "Amount is required"]
-  },
-  finalBalance: {
-      type: Number,
-      default: 0
+    type: Number,
+    required:[true, "Amount is required"]
   },
   user:{
       type:String,
