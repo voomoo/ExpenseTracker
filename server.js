@@ -5,6 +5,7 @@ const auth = require("./routes/auth");
 const verifyAuth = require("./middleware/auth");
 const morgan = require("morgan");
 const connectDB = require("./config/db");
+const cors = require("cors");
 
 dotenv.config({
   path: "./config/config.env",
@@ -13,6 +14,8 @@ dotenv.config({
 connectDB();
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
