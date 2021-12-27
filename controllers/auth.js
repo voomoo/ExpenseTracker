@@ -61,7 +61,9 @@ exports.loginUser = async (req, res, next) => {
 
     // Validate user input
     if (!(email && password)) {
-      return res.status(400).send("All input is required");
+      return res
+        .status(400)
+        .json({ success: false, message: "All input required" });
     }
     // Validate if user exist in our database
     const user = await User.findOne({ email });
@@ -82,7 +84,9 @@ exports.loginUser = async (req, res, next) => {
       // user
       return res.status(200).json(user);
     }
-    return res.status(401).send("Invalid Credentials");
+    return res
+      .status(401)
+      .json({ success: false, message: "Invalid Credentials" });
   } catch (err) {
     console.log(err);
   }
