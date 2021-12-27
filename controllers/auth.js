@@ -82,7 +82,7 @@ exports.loginUser = async (req, res, next) => {
       user.token = token;
 
       // user
-      return res.status(200).json(user);
+      return res.status(200).json({ success: true, user });
     }
     return res
       .status(200)
