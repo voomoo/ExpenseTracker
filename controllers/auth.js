@@ -62,7 +62,7 @@ exports.loginUser = async (req, res, next) => {
     // Validate user input
     if (!(email && password)) {
       return res
-        .status(400)
+        .status(401)
         .json({ success: false, message: "All input required" });
     }
     // Validate if user exist in our database
