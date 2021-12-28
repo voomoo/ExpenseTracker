@@ -11,7 +11,9 @@ exports.registerUser = async (req, res, next) => {
 
     // Validate user input
     if (!(email && password && name)) {
-      res.status(400).send("All input is required");
+      return res
+        .status(200)
+        .json({ success: false, message: "All input is required" });
     }
 
     // check if user already exist
@@ -19,7 +21,9 @@ exports.registerUser = async (req, res, next) => {
     const oldUser = await User.findOne({ email });
 
     if (oldUser) {
-      return res.status(409).send("User Already Exist. Please Login");
+      return res
+        .status(200)
+        .json({ success: false, message: "User Already Exist. Please Login" });
     }
 
     //Encrypt user password
@@ -44,7 +48,7 @@ exports.registerUser = async (req, res, next) => {
     user.token = token;
 
     // return new user
-    res.status(201).json(user);
+    return res.status(201).json({ success: true, user });
   } catch (err) {
     console.log(err);
   }
