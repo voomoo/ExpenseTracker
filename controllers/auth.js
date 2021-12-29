@@ -12,7 +12,7 @@ exports.registerUser = async (req, res, next) => {
     // Validate user input
     if (!(email && password && name)) {
       return res
-        .status(200)
+        .status(422)
         .json({ success: false, message: "All input is required" });
     }
 
@@ -22,7 +22,7 @@ exports.registerUser = async (req, res, next) => {
 
     if (oldUser) {
       return res
-        .status(200)
+        .status(409)
         .json({ success: false, message: "User Already Exist. Please Login" });
     }
 
@@ -89,7 +89,7 @@ exports.loginUser = async (req, res, next) => {
       return res.status(200).json({ success: true, user });
     }
     return res
-      .status(200)
+      .status(401)
       .json({ success: false, message: "Invalid Credentials" });
   } catch (err) {
     console.log(err);
