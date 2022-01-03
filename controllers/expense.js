@@ -5,9 +5,7 @@ const Expense = require("../models/Expenses");
 //@access PRIVATE
 exports.getExpenses = async (req, res, next) => {
   try {
-    const expenses = await Expense.where("user").equals(
-      req.headers["x-access-user"]
-    );
+    const expenses = await Expense.where("user").equals(req.user.user_id);
     res.status(200).json({
       success: true,
       data: expenses,
