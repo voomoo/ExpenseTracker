@@ -39,7 +39,8 @@ exports.getExpense = async (req, res, next) => {
 //@access PRIVATE
 exports.createExpense = async (req, res, next) => {
   try {
-    const expense = await Expense.create(req.body);
+    const payload = { ...req.body, user: req.user.user_id };
+    const expense = await Expense.create(payload);
     res.status(201).json({
       success: true,
       data: expense,
