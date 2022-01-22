@@ -28,12 +28,16 @@ const UserSchema = new mongoose.Schema({
   },
   currentBalance: {
     type: Number,
-    default: 0
+    default: 0,
   },
   totalExpense: {
     type: Number,
-    default: 0
-  }
+    default: 0,
+  },
+  totalIncome: {
+    type: Number,
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);

@@ -1,4 +1,5 @@
 const Expense = require("../models/Expenses");
+const User = require("../models/Users");
 
 //@desc get all the expenses
 //@route GET api/v1/expense-tracker
@@ -41,6 +42,25 @@ exports.createExpense = async (req, res, next) => {
   try {
     const payload = { ...req.body, user: req.user.user_id };
     const expense = await Expense.create(payload);
+    const user = await User.findById(req.user.user_id);
+    console.log(req.body.accountType);
+    if (req.body.accountType === "expense") {
+      const userUpdate = await User.updateOne(
+        { _id: req.user.user_id },
+        {
+          $set: {
+            currentBalance: user.currentBalance - req.body.amount,
+            totalExpense: user.totalExpense + req.body.amount,
+          },
+        }
+      );
+      console.log(userUpdate);
+    } else {
+      const userUpdate = await User.findByIdAndUpdate(req.user.user_id, {
+        currentBalance: user.currentBalance + req.body.amount,
+        totalIncome: user.totalIncome + req.body.amount,
+      });
+    }
     res.status(201).json({
       success: true,
       data: expense,
