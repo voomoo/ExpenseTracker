@@ -18,6 +18,106 @@ exports.getExpenses = async (req, res, next) => {
   }
 };
 
+exports.getExpensesRange = async (req, res, next) => {
+  try {
+    const d = new Date();
+    const range = parseInt(req.query.range);
+    if (isNaN(range) && range < 0) {
+      d.setDate(d.getDate() - 1);
+    } else {
+      d.setDate(d.getDate() - range);
+    }
+    console.log({ startDate: new Date(), endDate: d });
+    const expenses = await Expense.find({
+      createdAt: { $gte: d, $lte: new Date() },
+    });
+    let food = { income: 0, expense: 0 };
+    let transport = { income: 0, expense: 0 };
+    let rent = { income: 0, expense: 0 };
+    let equipment = { income: 0, expense: 0 };
+    let entertainment = { income: 0, expense: 0 };
+    let education = { income: 0, expense: 0 };
+    let salary = { income: 0, expense: 0 };
+    let freelance = { income: 0, expense: 0 };
+    let gift = { income: 0, expense: 0 };
+    let parents = { income: 0, expense: 0 };
+    let others = { income: 0, expense: 0 };
+
+    expenses.forEach((elem) => {
+      if (elem.accountType === "expense") {
+        if (elem.category === "food") {
+          food.expense += elem.amount;
+        } else if (elem.category === "transport") {
+          transport.expense += elem.amount;
+        } else if (elem.category === "rent") {
+          rent.expense += elem.amount;
+        } else if (elem.category === "equipment") {
+          equipment.expense += elem.amount;
+        } else if (elem.category === "entertainment") {
+          entertainment.expense += elem.amount;
+        } else if (elem.category === "education") {
+          education.expense += elem.amount;
+        } else if (elem.category === "salary") {
+          salary.expense += elem.amount;
+        } else if (elem.category === "freelance") {
+          freelance.expense += elem.amount;
+        } else if (elem.category === "gift") {
+          gift.expense += elem.amount;
+        } else if (elem.category === "parents") {
+          parents.expense += elem.amount;
+        } else if (elem.category === "others") {
+          others.expense += elem.amount;
+        }
+      } else {
+        if (elem.category === "food") {
+          food.income += elem.amount;
+        } else if (elem.category === "transport") {
+          transport.income += elem.amount;
+        } else if (elem.category === "rent") {
+          rent.income += elem.amount;
+        } else if (elem.category === "equipment") {
+          equipment.income += elem.amount;
+        } else if (elem.category === "entertainment") {
+          entertainment.income += elem.amount;
+        } else if (elem.category === "education") {
+          education.income += elem.amount;
+        } else if (elem.category === "salary") {
+          salary.income += elem.amount;
+        } else if (elem.category === "freelance") {
+          freelance.income += elem.amount;
+        } else if (elem.category === "gift") {
+          gift.income += elem.amount;
+        } else if (elem.category === "parents") {
+          parents.income += elem.amount;
+        } else if (elem.category === "others") {
+          others.income += elem.amount;
+        }
+      }
+    });
+
+    res.status(200).json({
+      success: true,
+      data: expenses,
+      food,
+      transport,
+      rent,
+      equipment,
+      entertainment,
+      education,
+      salary,
+      freelance,
+      gift,
+      parents,
+      others,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: "Finding expense error",
+    });
+    console.log({ error });
+  }
+};
+
 //@desc get single expense
 //@route GET api/v1/expense-tracker/id
 //@access PRIVATE
