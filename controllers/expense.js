@@ -52,59 +52,56 @@ exports.getExpensesRange = async (req, res, next) => {
         if (elem.category === "food") {
           expense[0] += elem.amount;
         } else if (elem.category === "transport") {
-          expense[1] += elem.amount
+          expense[1] += elem.amount;
         } else if (elem.category === "rent") {
-          expense[2] += elem.amount
+          expense[2] += elem.amount;
         } else if (elem.category === "equipment") {
-          expense[3] += elem.amount
+          expense[3] += elem.amount;
         } else if (elem.category === "entertainment") {
-          expense[4] += elem.amount
+          expense[4] += elem.amount;
         } else if (elem.category === "education") {
-          expense[5] += elem.amount
+          expense[5] += elem.amount;
         } else if (elem.category === "salary") {
-          expense[6] += elem.amount
+          expense[6] += elem.amount;
         } else if (elem.category === "freelance") {
-          expense[7] += elem.amount
+          expense[7] += elem.amount;
         } else if (elem.category === "gift") {
-          expense[8] += elem.amount
+          expense[8] += elem.amount;
         } else if (elem.category === "parents") {
-          expense[9] += elem.amount
+          expense[9] += elem.amount;
         } else if (elem.category === "others") {
-          expense[10] += elem.amount
+          expense[10] += elem.amount;
         }
       } else {
         if (elem.category === "food") {
           income[0] += elem.amount;
         } else if (elem.category === "transport") {
-          income[1] += elem.amount
+          income[1] += elem.amount;
         } else if (elem.category === "rent") {
-          income[2] += elem.amount
+          income[2] += elem.amount;
         } else if (elem.category === "equipment") {
-          income[3] += elem.amount
+          income[3] += elem.amount;
         } else if (elem.category === "entertainment") {
-          income[4] += elem.amount
+          income[4] += elem.amount;
         } else if (elem.category === "education") {
-          income[5] += elem.amount
+          income[5] += elem.amount;
         } else if (elem.category === "salary") {
-          income[6] += elem.amount
+          income[6] += elem.amount;
         } else if (elem.category === "freelance") {
-          income[7] += elem.amount
+          income[7] += elem.amount;
         } else if (elem.category === "gift") {
-          income[8] += elem.amount
+          income[8] += elem.amount;
         } else if (elem.category === "parents") {
-          income[9] += elem.amount
+          income[9] += elem.amount;
         } else if (elem.category === "others") {
-          income[10] += elem.amount
+          income[10] += elem.amount;
         }
       }
     });
 
     res.status(200).json({
       success: true,
-      data: expenses,
-      income,
-      expense,
-      label
+      data: { expenses, income, expense, label },
     });
   } catch (error) {
     res.status(400).json({
