@@ -193,7 +193,7 @@ exports.deleteExpense = async (req, res, next) => {
   try {
     const expense = await Expense.findByIdAndDelete(req.params.id);
     const user = await User.findById(req.user.user_id);
-    console.log(req.body.accountType);
+    console.log(expense.accountType);
     if (expense.accountType === "expense") {
       const userUpdate = await User.updateOne(
         { _id: req.user.user_id },
