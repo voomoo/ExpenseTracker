@@ -194,7 +194,23 @@ exports.deleteExpense = async (req, res, next) => {
     const expense = await Expense.findByIdAndDelete(req.params.id);
     const user = await User.findById(req.user.user_id);
     console.log(user);
-    
+    if (expense.accountType === "expense") {
+      const userUpdate = await User.updateOne(
+        { _id: req.user.user_id },
+        {
+          $set: {
+            currentBalance: user.currentBalance + expense.amount,
+            totalExpense: user.totalExpense - expense.amount,
+          },
+        }
+      );
+      console.log(userUpdate);
+    } else {
+      const userUpdate = await User.findByIdAndUpdate(req.user.user_id, {
+        currentBalance: user.currentBalance - expense.amount,
+        totalIncome: user.totalIncome - expense.amount,
+      });
+    }
     res.status(200).json({
       success: true,
       data: expense,
