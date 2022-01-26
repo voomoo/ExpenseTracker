@@ -30,6 +30,7 @@ exports.getExpensesRange = async (req, res, next) => {
     console.log({ startDate: new Date(), endDate: d });
     const expenses = await Expense.find({
       createdAt: { $gte: d, $lte: new Date() },
+      user: req.user.user_id
     });
     let income = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     let expense = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
