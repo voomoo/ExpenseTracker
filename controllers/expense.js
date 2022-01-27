@@ -191,6 +191,8 @@ exports.createExpense = async (req, res, next) => {
           },
         }
       );
+      user.currentBalance -= req.body.amount
+      user.totalExpense += req.body.amount
       console.log(userUpdate);
     } else {
       const userUpdate = await User.updateOne(
@@ -202,6 +204,8 @@ exports.createExpense = async (req, res, next) => {
           },
         }
       );
+      user.currentBalance -= req.body.amount
+      user.totalExpense += req.body.amount
       console.log(userUpdate);
     }
     res.status(201).json({
