@@ -257,7 +257,8 @@ exports.deleteExpense = async (req, res, next) => {
         }
       );
       user.currentBalance += expense.amount
-      user.totalExpense -= expense
+      user.totalExpense -= expense.amount
+      
       console.log(userUpdate);
     } else {
       const userUpdate = await User.findByIdAndUpdate(req.user.user_id, {
