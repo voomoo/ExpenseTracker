@@ -204,9 +204,11 @@ exports.createExpense = async (req, res, next) => {
       );
       console.log(userUpdate);
     }
+    const user = await User.findById(req.user.user_id);
     res.status(201).json({
       success: true,
       data: expense,
+      user
     });
   } catch (error) {
     res.status(400).json({ success: false });
