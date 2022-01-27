@@ -32,77 +32,120 @@ exports.getExpensesRange = async (req, res, next) => {
       createdAt: { $gte: d, $lte: new Date() },
       user: req.user.user_id
     });
-    let income = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let expense = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let label = [
-      "Food",
-      "Transport",
-      "Rent",
-      "Equipment",
-      "Entertainment",
-      "Education",
-      "Salary",
-      "Freelance",
-      "Gift",
-      "Parents",
-      "Others",
-    ];
-
+    let catData = [
+      {
+        name: "Food",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Transport",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Rent",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Equipment",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Entertainment",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Education",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Salary",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Freelance",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Gift",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Parents",
+        income: 0,
+        expense: 0,
+      },
+      {
+        name: "Others",
+        income: 0,
+        expense: 0,
+      },
+      
+    ]
+    
     expenses.forEach((elem) => {
       if (elem.accountType === "expense") {
         if (elem.category === "food") {
-          expense[0] += elem.amount;
+          catData[0].expense += elem.amount;
         } else if (elem.category === "transport") {
-          expense[1] += elem.amount;
+          catData[1].expense += elem.amount;
         } else if (elem.category === "rent") {
-          expense[2] += elem.amount;
+          catData[2].expense += elem.amount;
         } else if (elem.category === "equipment") {
-          expense[3] += elem.amount;
+          catData[3].expense += elem.amount;
         } else if (elem.category === "entertainment") {
-          expense[4] += elem.amount;
+          catData[4].expense += elem.amount;
         } else if (elem.category === "education") {
-          expense[5] += elem.amount;
+          catData[5].expense += elem.amount;
         } else if (elem.category === "salary") {
-          expense[6] += elem.amount;
+          catData[6].expense += elem.amount;
         } else if (elem.category === "freelance") {
-          expense[7] += elem.amount;
+          catData[7].expense += elem.amount;
         } else if (elem.category === "gift") {
-          expense[8] += elem.amount;
+          catData[8].expense += elem.amount;
         } else if (elem.category === "parents") {
-          expense[9] += elem.amount;
+          catData[9].expense += elem.amount;
         } else if (elem.category === "others") {
-          expense[10] += elem.amount;
+          catData[10].expense += elem.amount;
         }
       } else {
         if (elem.category === "food") {
-          income[0] += elem.amount;
+          catData[0].income += elem.amount;
         } else if (elem.category === "transport") {
-          income[1] += elem.amount;
+          catData[1].income += elem.amount;
         } else if (elem.category === "rent") {
-          income[2] += elem.amount;
+          catData[2].income += elem.amount;
         } else if (elem.category === "equipment") {
-          income[3] += elem.amount;
+          catData[3].income += elem.amount;
         } else if (elem.category === "entertainment") {
-          income[4] += elem.amount;
+          catData[4].income += elem.amount;
         } else if (elem.category === "education") {
-          income[5] += elem.amount;
+          catData[5].income += elem.amount;
         } else if (elem.category === "salary") {
-          income[6] += elem.amount;
+          catData[6].income += elem.amount;
         } else if (elem.category === "freelance") {
-          income[7] += elem.amount;
+          catData[7].income += elem.amount;
         } else if (elem.category === "gift") {
-          income[8] += elem.amount;
+          catData[8].income += elem.amount;
         } else if (elem.category === "parents") {
-          income[9] += elem.amount;
+          catData[9].income += elem.amount;
         } else if (elem.category === "others") {
-          income[10] += elem.amount;
+          catData[10].income += elem.amount;
         }
       }
     });
 
     res.status(200).json({
       success: true,
-      data: { expenses, income, expense, label },
+      data: { expenses, catData },
     });
   } catch (error) {
     res.status(400).json({
@@ -150,10 +193,16 @@ exports.createExpense = async (req, res, next) => {
       );
       console.log(userUpdate);
     } else {
-      const userUpdate = await User.findByIdAndUpdate(req.user.user_id, {
-        currentBalance: user.currentBalance + req.body.amount,
-        totalIncome: user.totalIncome + req.body.amount,
-      });
+      const userUpdate = await User.updateOne(
+        { _id: req.user.user_id },
+        {
+          $set: {
+            currentBalance: user.currentBalance + req.body.amount,
+            totalIncome: user.totalIncome + req.body.amount,
+          },
+        }
+      );
+      console.log(userUpdate);
     }
     res.status(201).json({
       success: true,
