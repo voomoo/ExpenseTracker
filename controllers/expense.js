@@ -204,8 +204,8 @@ exports.createExpense = async (req, res, next) => {
           },
         }
       );
-      user.currentBalance -= req.body.amount
-      user.totalExpense += req.body.amount
+      user.currentBalance += req.body.amount
+      user.totalIncome += req.body.amount
       console.log(userUpdate);
     }
     res.status(201).json({
