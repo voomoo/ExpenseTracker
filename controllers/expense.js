@@ -256,16 +256,22 @@ exports.deleteExpense = async (req, res, next) => {
           },
         }
       );
+      user.currentBalance += expense.amount
+      user.totalExpense -= expense
       console.log(userUpdate);
     } else {
       const userUpdate = await User.findByIdAndUpdate(req.user.user_id, {
         currentBalance: user.currentBalance - expense.amount,
         totalIncome: user.totalIncome - expense.amount,
       });
+      user.currentBalance -= expense.amount
+      user.totalIncome -= expense.amount
+      console.log(userUpdate);
     }
     res.status(200).json({
       success: true,
       data: expense,
+      user: user
     });
   } catch (error) {
     res.status(400).json({
