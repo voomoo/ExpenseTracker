@@ -7,6 +7,7 @@ const User = require("../models/Users");
 exports.getExpenses = async (req, res, next) => {
   try {
     const expenses = await Expense.where("user").equals(req.user.user_id);
+    expenses.reverse()
     res.status(200).json({
       success: true,
       data: expenses,
