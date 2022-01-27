@@ -208,7 +208,7 @@ exports.createExpense = async (req, res, next) => {
     res.status(201).json({
       success: true,
       data: expense,
-      user
+      user: user
     });
   } catch (error) {
     res.status(400).json({ success: false });
